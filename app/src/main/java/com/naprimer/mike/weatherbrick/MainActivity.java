@@ -8,6 +8,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void printRes(List<WeatherEntry> res) {
+    private void printRes(ArrayList<WeatherEntry> res) {
         for(WeatherEntry we : res) {
             Log.d(TAG, "printRes: " + we.getDay());
         }
