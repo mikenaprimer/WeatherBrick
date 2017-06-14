@@ -14,10 +14,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Created by m on 15.05.17.
- */
-
 final class NetworkUtils {
 
     private static final String TAG = "mTAG";

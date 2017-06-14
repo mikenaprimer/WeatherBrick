@@ -1,8 +1,12 @@
 package com.naprimer.mike.weatherbrick;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.naprimer.mike.weatherbrick.WeatherDatabase.WeatherDbHelper;
+import com.naprimer.mike.weatherbrick.databinding.ActivityMainBinding;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -22,14 +26,22 @@ public class MainActivity extends AppCompatActivity
 
 
     private static final String TAG = "mTAG";
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: start");
-        //NetworkUtils networkUtils = new NetworkUtils();
-        //networkUtils.fetchData();
+        //setContentView(R.layout.activity_main);
+
+        //TODO check is database is uptodated:
+        // yes - load data from DB
+        // no -
+        //
+        WeatherDbHelper weatherDbHelper = new WeatherDbHelper(getApplicationContext());
+
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         OkHttpClient client = new OkHttpClient();
         client.newCall(NetworkUtils.buildRequest()).enqueue(this);
@@ -42,17 +54,23 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "onFailure: oops");
         //TODO handle errors
     }
+
     @Override
     public void onResponse(Call call, Response response) throws IOException {
         if(response.isSuccessful()) {
-            //Log.d(TAG, "onResponse: " + NetworkUtils.buildRequest().toString());
-            //Log.d(TAG, "onResponse() returned: " + response.body().string());
             InputStream in = response.body().byteStream();
             try {
-                printRes(ParseUtils.parseXml(in));
+
+
+                ArrayList<WeatherEntry> entries = ParseUtils.parseXml(in);
+
+
+                binding.setWeatherEntry(entries.get(0));
+
+
             } catch (XmlPullParserException e) {
+                //TODO handle error
                 e.printStackTrace();
-                //TODO handle errors
             } finally {
                 if (in != null) {
                     in.close();
@@ -69,7 +87,8 @@ public class MainActivity extends AppCompatActivity
 
     private void printRes(ArrayList<WeatherEntry> res) {
         for(WeatherEntry we : res) {
-            Log.d(TAG, "printRes: " + we.getDay());
+            Log.d(TAG, "day: " + we.getDate());
+            Log.d(TAG, "w_cond: " + we.getCondition());
         }
     }
 }

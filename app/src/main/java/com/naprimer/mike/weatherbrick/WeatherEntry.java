@@ -1,24 +1,46 @@
 package com.naprimer.mike.weatherbrick;
 
-/**
- * Created by m on 20.05.17.
- */
-
 public class WeatherEntry {
 
-    final private String day;
-    final private String w_cond;
+    final private String date;
+    final private String condition;
+    final private String windDir;
+    final private String windSpeed;
+    final private String tempDay;
 
-    public WeatherEntry(String day, String w_cond) {
-        this.day = day;
-        this.w_cond = w_cond;
+    WeatherEntry(
+                        String date,
+                        String condition,
+                        String windDir,
+                        String windSpeed,
+                        String tempDay) {
+
+        this.date = date;
+        this.condition = condition;
+        this.windDir = windDir;
+        this.windSpeed = windSpeed;
+        this.tempDay = tempDay;
     }
 
-    public String getDay() {
-        return day;
+    public String getDate() {
+        return date;
     }
 
-    public String getW_cond() {
-        return w_cond;
+    public String getCondition() {
+        return condition;
     }
+
+    public String getWindDir() {
+        return windDir;
+    }
+
+    public String getWindSpeed() {
+        return windSpeed;
+    }
+
+    public String getTempDay() {
+        return tempDay;
+    }
+
+
 }
